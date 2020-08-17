@@ -11,27 +11,6 @@ namespace ObjectPool.Test
     public class ObjectPool_UnitTest
     {
         [Test]
-        public void Ctor_Returns_New_ObjectPool_And_Implements_IObjectPool()
-        {
-            IObjectPool<object> pool = new ObjectPool<object>();
-        }
-
-        [Test]
-        public void GetSet_Properties_Gets_And_Sets()
-        {
-            var pool = new ObjectPool<object>();
-            
-            Assert.IsTrue(pool.AutoCreateObjects);
-            Assert.AreEqual(0, pool.MaxPoolSize);
-
-            pool.AutoCreateObjects = false;
-            pool.MaxPoolSize = 100;
-
-            Assert.IsFalse(pool.AutoCreateObjects);
-            Assert.AreEqual(100, pool.MaxPoolSize);
-        }
-
-        [Test]
         public void Store_Adds_Object_If_Pool_Not_Full_Or_Max_Is_Zero()
         {
             var pool = new ObjectPool<object>()
@@ -42,14 +21,14 @@ namespace ObjectPool.Test
             Assert.IsTrue(pool.Store(new object()));
             Assert.AreEqual(1, pool.Count);
             Assert.IsTrue(pool.Store(new object()));
-            Assert.AreSame(2, pool.Count);
+            Assert.AreEqual(2, pool.Count);
 
             pool.MaxPoolSize = 3;
 
             Assert.IsTrue(pool.Store(new object()));
             Assert.AreEqual(3, pool.Count);
             Assert.IsFalse(pool.Store(new object()));
-            Assert.AreSame(3, pool.Count);
+            Assert.AreEqual(3, pool.Count);
         }
 
         [Test]
